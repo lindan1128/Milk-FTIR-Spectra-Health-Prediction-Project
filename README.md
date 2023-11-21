@@ -1,4 +1,4 @@
-# Milk-FTIR-Spectra-Health-Prediction-Project
+# Milk-FTIR-Spectra-Health-Forecast-Project
 
 ![Image text](https://github.com/lindan1128/Milk-FTIR-Spectra-Health-Prediction-Project/blob/main/Workflow.png)
 
