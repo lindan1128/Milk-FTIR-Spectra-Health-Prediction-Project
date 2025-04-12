@@ -10,7 +10,7 @@ This project investigates the feasibility of using milk Fourier-transform infrar
 	│   ├── Figure 1C-1F.r            # codes for generating results for Figure 1C-1F
 	│   ├── Figure 2.r                # codes for generating results for Figure 2A-2B
 	│   ├── Figure 3A-3C.r            # codes for generating results for Figure 3A-3C
-	│ 	├── Figure 3D-3E.r            # codes for generating results for Figure 3D-3E
+	│   ├── Figure 3D-3E.r            # codes for generating results for Figure 3D-3E
 	├── Supplemental_Table/           # Folder for supplemental tables
 	│   ├── Supplemental Table 1      
 	│   ├── Supplemental Table 2
