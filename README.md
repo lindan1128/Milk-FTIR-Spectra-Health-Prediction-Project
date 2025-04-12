@@ -2,7 +2,7 @@
 
 This project investigates the feasibility of using milk Fourier-transform infrared (FTIR) spectroscopy and machine learning to predict early-lactation diseases in Holstein dairy cows. To ensure robust and unbiased evaluation, we adopted a repeated down-sampled double cross-validation framework that balances class distributions and integrates both model selection and assessment through nested 5-fold cross-validation. 
 
-![Image text](https://github.com/lindan1128/Milk-FTIR-Spectra-Health-Prediction-Project/blob/main/workflow.png)
+<img src="https://github.com/lindan1128/Milk-FTIR-Spectra-Health-Prediction-Project/blob/main/workflow.png" alt="Workflow diagram">
 
 ### Project structure
 	Main/
