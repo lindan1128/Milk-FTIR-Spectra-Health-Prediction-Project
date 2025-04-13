@@ -16,6 +16,9 @@ This project investigates the feasibility of using milk Fourier-transform infrar
 	│   ├── Supplemental Table 2
 	│   ├── Supplemental Table 3
 	│   └── Supplemental Table 4
+	├── Supplemental_Figure/          # Folder for supplemental fugures
+	│   ├── Supplemental Figure 1      
+	│   ├── Supplemental Figure 2
 	│── pls-da.py                     # Main function for PLS-DA
 	│── ridge.py                      # Main function for ridge regression
 	│── rf.py                         # Main function for random forest
