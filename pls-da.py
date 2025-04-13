@@ -24,40 +24,18 @@ def process_data(df):
     """
     print(f"Initial data shape: {df.shape}")
     
-    # 检查NA情况
-    columns_to_check = ['milkweightlbs', 'cells', 'parity']
-    na_counts = df[columns_to_check].isna().sum()
-    print("\nNA counts in relevant columns:")
-    print(na_counts[na_counts > 0])
-    
-    # 对milkweightlbs和cells按dim进行插值
-    for col in ['milkweightlbs', 'cells']:
-        if df[col].isna().any():
-            print(f"\nInterpolating {col} by dim...")
-            df[col] = df.groupby('dim')[col].transform(lambda x: x.interpolate(method='linear'))
-            
-            # 如果还有NA，用该dim的均值填充
-            if df[col].isna().any():
-                df[col] = df.groupby('dim')[col].transform(lambda x: x.fillna(x.mean()))
-            
-            # 检查是否还有NA
-            remaining_na = df[col].isna().sum()
-            if remaining_na > 0:
-                print(f"Warning: {remaining_na} NA values remain in {col} after interpolation")
-                df[col] = df[col].fillna(df[col].mean())
-    
-    # parity列按原来的方式处理（删除NA）
+    # Process parity column as before (remove NAs)
     df = df.dropna(subset=['parity'])
     print(f"\nShape after handling NA: {df.shape}")
     
-    # 将parity重新分类
+    # Reclassify parity
     df['parity'] = df['parity'].apply(lambda x: '2+' if x > 2 else str(x))
     
-    # 只保留disease为0和1的样本
+    # Only keep samples with disease 0 and 1
     df = df[df['disease'].isin([0, 1])].copy()
     print(f"\nShape after selecting disease 0 and 1: {df.shape}")
     
-    # 为disease组（disease=1）创建时间段
+    # Create time periods for disease group (disease=1)
     def create_time_group(days):
         if days > 10:
             return '>10'
@@ -76,7 +54,7 @@ def process_data(df):
         else:
             return '0'
     
-    # 添加时间组列
+    # Add time group column
     df['time_group'] = None
     disease_mask = df['disease'] == 1
     df.loc[disease_mask, 'time_group'] = df.loc[disease_mask, 'disease_in'].apply(create_time_group)
@@ -85,7 +63,7 @@ def process_data(df):
     print("\nSample counts by time group:")
     print(df['time_group'].value_counts())
     
-    # 检查最终的数据
+    # Check final data
     print(f"\nFinal data shape: {df.shape}")
     print("\nFinal NA counts:")
     print(df[columns_to_check].isna().sum())
@@ -105,32 +83,32 @@ def get_spectral_data(df, type='original'):
     Returns:
         pd.DataFrame: Extracted spectral data
     """
-    # 获取光谱列（假设非光谱列是已知的）
+    # Get spectral columns (assuming non-spectral columns are known)
     non_spectral_cols = ['disease_in', 'disease', 'day_group', 'milkweightlbs', 
                         'cells', 'parity', 'Unnamed: 0', 'index']  # 添加额外的非光谱列
     
-    # 获取所有数值列名（光谱波长）
+    # Get all numeric column names (spectral wavelengths)
     spectral_cols = [col for col in df.columns if col not in non_spectral_cols]
     
-    # 确保所有列名都可以转换为浮点数
+    # Ensure all column names can be converted to float
     spectral_cols = [col for col in spectral_cols if col.replace('.', '').isdigit()]
     
-    # 转换列名为数值以便进行范围选择
+     # Convert column names to numeric values for range selection
     wavelengths = [float(col) for col in spectral_cols]
     
-    # 选择1000-3000范围内的列，除去1580-1700和1800-2800
+    # Select columns in the range 1000-3000, excluding 1580-1700 and 1800-2800
     valid_cols = [col for col, wave in zip(spectral_cols, wavelengths)
                  if 1000 <= wave <= 3000 and not (1580 <= wave <= 1700) and not (1800 <= wave <= 2800)]
     
     if type == 'original':
         return df[valid_cols]
     elif type == 'derivative':
-        # 计算一阶导数
+        # Calculate first derivative
         spectra = df[valid_cols].values
         derivatives = savgol_filter(spectra, window_length=7, polyorder=2, deriv=1, axis=1)
         return pd.DataFrame(derivatives, columns=valid_cols, index=df.index)
     elif type == 'rmR4':
-        # 在original的基础上再去掉1800-2800区域
+        # Remove 1800-2800 region from original
         # rmR4_cols = [col for col, wave in zip(valid_cols, map(float, valid_cols))
         #             if wave < 1800 or wave > 2800]
         rmR4_cols = [col for col, wave in zip(spectral_cols, wavelengths)
