@@ -1,6 +1,6 @@
 # Milk-FTIR-Spectra-Subsequent-Disease-Prediction-Project
 
-This project investigates the feasibility of using milk Fourier-transform infrared (FTIR) spectroscopy and machine learning to predict early-lactation diseases in Holstein dairy cows. To ensure unbiased evaluation, we adopted a repeated down-sampled double cross-validation framework that balances class distributions and integrates both model selection and assessment through nested 5-fold cross-validation. 
+This project investigates the feasibility of using milk Fourier-transform infrared (FTIR) spectroscopy and machine learning to predict early-lactation diseases in Holstein dairy cows. To ensure robust and unbiased evaluation, we adopted a repeated down-sampled double cross-validation framework that balances class distributions and integrates both model selection and assessment through nested 5-fold cross-validation. 
 
 <img src="https://github.com/lindan1128/Milk-FTIR-Spectra-Health-Prediction-Project/blob/main/workflow.png" alt="Workflow diagram">
 
@@ -15,10 +15,15 @@ This project investigates the feasibility of using milk Fourier-transform infrar
 	│   ├── Supplemental Table 1      
 	│   ├── Supplemental Table 2
 	│   ├── Supplemental Table 3
-	│   └── Supplemental Table 4
-	├── Supplemental_Figure/          # Folder for supplemental figures
+	│   ├── Supplemental Table 4
+	│   ├── Supplemental Table 5
+	├── Supplemental_Figure/           # Folder for supplemental figures
 	│   ├── Supplemental Figure 1      
-	│   └── Supplemental Figure 2
+	│   ├── Supplemental Figure 2
+	│   ├── Supplemental Figure 3
+	│   ├── Supplemental Figure 4
+	│   ├── Supplemental Figure 5
+	│   ├── Supplemental Figure 6
 	│── pls-da.py                     # Main function for PLS-DA
 	│── ridge.py                      # Main function for ridge regression
 	│── rf.py                         # Main function for random forest
@@ -55,9 +60,17 @@ This project investigates the feasibility of using milk Fourier-transform infrar
         all_p_values: p-values
         skipped_cases: Skipped cases
     
-    Define feature types: ['spc', 'spc+my', 'spc+scc', 'spc+parity', 'spc+my+scc+parity', 'spc_de', 'spc_rmR4']
+    Define feature types: 
+       ['my+scc+dim+parity',
+        'spc',
+        'spc_de',
+        'spc_rmR4',
+        'my+scc+dim+parity+totalfa+lactose+protein',
+        'my+scc+dim+parity+totalfa+lactose+protein+spc',
+        'my+scc+dim+parity+totalfa+lactose+protein+spc_de',
+        'my+scc+dim+parity+totalfa+lactose+protein+spc_rmR4']
     Define time groups: ['>10', '10-8', '7-6', '5-4', '3', '2', '1', '0']
-    Define component range: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+    Define component range: [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20]
 
 	Main Loop:
     For each time group:
